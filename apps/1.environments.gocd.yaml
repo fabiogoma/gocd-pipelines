@@ -4,12 +4,4 @@ environments:
   Development:
     pipelines:
       - "App_Development"
-  Test:
-    pipelines:
-      - "App_Test"
-  Acceptance:
-    pipelines:
-      - "App_Acceptance"
-  Production:
-    pipelines:
-      - "App_Production"
+

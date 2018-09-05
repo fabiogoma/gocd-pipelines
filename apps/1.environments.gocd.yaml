@@ -4,4 +4,6 @@ environments:
   Development:
     pipelines:
       - "App_Development"
+    agents:
+      - gocd
 

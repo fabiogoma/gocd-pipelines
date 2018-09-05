@@ -5,6 +5,7 @@ pipelines:
     group: Apps
     environment_variables:
       GROUP_OF_HOSTS: app
+      PAGE: blue.html
     materials:
       "Playbooks":
         git: https://github.com/fabiogoma/gocd-pipelines.git
@@ -39,7 +40,6 @@ pipelines:
                 IMAGE_NAME: "fabiogoma/app"
                 IMAGE_TAG: "latest"
                 CONTAINER_PORT: 8080
-                PAGE: blue.html
               tasks:
                 - exec: # indicates type of task
                     command: /bin/bash

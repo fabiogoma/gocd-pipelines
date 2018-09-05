@@ -11,10 +11,15 @@
         name: "{{ lookup('env','REGISTRY_URL') }}/{{ lookup('env','IMAGE_NAME') }}"
         tag: "{{ lookup('env','IMAGE_TAG') }}"
         force: true
+      retries: 15
+      delay: 3
+      register: docker_pull
+      until: docker_pull is succeeded
+      failed_when: docker_pull is failure
 
     - name: Deploy application container
       docker_container:
-        name: "{{ lookup('env','IMAGE_NAME') }}"
+        name: demo
         image: "{{ lookup('env','REGISTRY_URL') }}/{{ lookup('env','IMAGE_NAME') }}:{{ lookup('env','IMAGE_TAG') }}"
         state: started
         restart: true

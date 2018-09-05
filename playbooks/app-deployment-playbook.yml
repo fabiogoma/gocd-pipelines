@@ -1,0 +1,24 @@
+---
+- name: Deploy application using a docker container
+  hosts: "{{ lookup('env','GROUP_OF_HOSTS') }}"
+  serial: 1
+  gather_facts: false
+
+  tasks:
+
+    - name: Pull image
+      docker_image:
+        name: "{{ lookup('env','REGISTRY_URL') }}/{{ lookup('env','IMAGE_NAME') }}"
+        tag: "{{ lookup('env','IMAGE_TAG') }}"
+        force: true
+
+    - name: Deploy application container
+      docker_container:
+        name: "{{ lookup('env','IMAGE_NAME') }}"
+        image: "{{ lookup('env','REGISTRY_URL') }}/{{ lookup('env','IMAGE_NAME') }}:{{ lookup('env','IMAGE_TAG') }}"
+        state: started
+        restart: true
+        ports:
+        - "{{ lookup('env','CONTAINER_PORT') }}:{{ lookup('env','CONTAINER_PORT') }}"
+        env:
+          PAGE: "{{ lookup('env','PAGE') }}"

@@ -39,6 +39,7 @@ pipelines:
                 IMAGE_NAME: "fabiogoma/app"
                 IMAGE_TAG: "latest"
                 CONTAINER_PORT: 8080
+                PAGE: blue.html
               tasks:
                 - exec: # indicates type of task
                     command: /bin/bash

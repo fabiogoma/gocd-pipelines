@@ -1,0 +1,65 @@
+---
+format_version: 3
+pipelines:
+  "App_Development":
+    group: Apps
+    environment_variables:
+      GROUP_OF_HOSTS: app
+    materials:
+      "Playbooks":
+        git: https://github.com/fabiogoma/gocd-pipelines.git
+        branch: master
+        destination: playbooks
+        auto_update: true
+    stages:
+      - "pre-run": # name of stage
+          approval: manual
+          jobs:
+            Validation: # name of the job
+              tasks:
+                - exec: # indicates type of task
+                    command: /bin/bash
+                    arguments:
+                      - -ic
+                      - ansible ${GROUP_OF_HOSTS} -m ping
+                    working_directory: playbooks
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                      - -ic
+                      # yamllint disable-line rule:line-length
+                      - find . -name '*.yml' ! -name '*secret*' -exec yamllint {} \;
+                    working_directory: playbooks
+
+      - "run":
+          jobs:
+            Deployment: # name of the job
+              environment_variables:
+                PRIVATE_REGISTRY_URL: "docker.io"
+                IMAGE_NAME: "fabiogoma/app"
+                IMAGE_TAG: "latest"
+                CONTAINER_PORT: 8080
+              tasks:
+                - exec: # indicates type of task
+                    command: /bin/bash
+                    arguments:
+                      - -ic
+                      # yamllint disable-line rule:line-length
+                      - ansible-playbook app-deployment-playbook.yml
+                    working_directory: playbooks
+
+      - "post-run":
+          jobs:
+            Validation: # name of the job
+              artifacts:
+                - build:
+                    source: playbooks/reports/*
+                    destination: apps
+              tasks:
+                - exec: # indicates type of task
+                    command: /bin/bash
+                    arguments:
+                      - -ic
+                      # yamllint disable-line rule:line-length
+                      - ansible-playbook app-tests-playbook.yml
+                    working_directory: playbooks

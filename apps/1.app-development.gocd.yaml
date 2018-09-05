@@ -9,7 +9,7 @@ pipelines:
       "Playbooks":
         git: https://github.com/fabiogoma/gocd-pipelines.git
         branch: master
-        destination: playbooks
+        destination: gocd-pipelines
         auto_update: true
     stages:
       - "pre-run": # name of stage
@@ -22,20 +22,20 @@ pipelines:
                     arguments:
                       - -ic
                       - ansible ${GROUP_OF_HOSTS} -m ping
-                    working_directory: playbooks
+                    working_directory: gocd-pipelines/playbooks
                 - exec:
                     command: /bin/bash
                     arguments:
                       - -ic
                       # yamllint disable-line rule:line-length
                       - find . -name '*.yml' ! -name '*secret*' -exec yamllint {} \;
-                    working_directory: playbooks
+                    working_directory: gocd-pipelines/playbooks
 
       - "run":
           jobs:
             Deployment: # name of the job
               environment_variables:
-                PRIVATE_REGISTRY_URL: "docker.io"
+                REGISTRY_URL: "docker.io"
                 IMAGE_NAME: "fabiogoma/app"
                 IMAGE_TAG: "latest"
                 CONTAINER_PORT: 8080
@@ -47,7 +47,7 @@ pipelines:
                       - -ic
                       # yamllint disable-line rule:line-length
                       - ansible-playbook app-deployment-playbook.yml
-                    working_directory: playbooks
+                    working_directory: gocd-pipelines/playbooks
 
       - "post-run":
           jobs:
@@ -63,4 +63,4 @@ pipelines:
                       - -ic
                       # yamllint disable-line rule:line-length
                       - ansible-playbook app-tests-playbook.yml
-                    working_directory: playbooks
+                    working_directory: gocd-pipelines/playbooks

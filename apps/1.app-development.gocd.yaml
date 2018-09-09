@@ -54,8 +54,8 @@ pipelines:
             Validation: # name of the job
               artifacts:
                 - build:
-                    source: playbooks/reports/*
-                    destination: apps
+                    source: gocd-pipelines/playbooks/reports/*
+                    destination: nginx
               tasks:
                 - exec: # indicates type of task
                     command: /bin/bash

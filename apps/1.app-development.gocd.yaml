@@ -55,7 +55,7 @@ pipelines:
               artifacts:
                 - build:
                     source: gocd-pipelines/playbooks/reports/*
-                    destination: nginx
+                    destination: reports
               tasks:
                 - exec: # indicates type of task
                     command: /bin/bash

@@ -1,4 +1,5 @@
 [all]
+localhost       ansible_connection=local
 app1.local      ansible_user=vagrant    ansible_ssh_private_key_file=/home/go/keys/app1/libvirt/private_key
 app2.local      ansible_user=vagrant    ansible_ssh_private_key_file=/home/go/keys/app2/libvirt/private_key
 nginx.local     ansible_user=vagrant    ansible_ssh_private_key_file=/home/go/keys/nginx/libvirt/private_key

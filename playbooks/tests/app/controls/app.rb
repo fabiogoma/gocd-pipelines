@@ -41,6 +41,6 @@ describe docker_container('demo') do
   its('image') { should eq 'docker.io/fabiogoma/app:latest' }
   its('repo') { should eq 'docker.io/fabiogoma/app' }
   its('tag') { should eq 'latest' }
-  its('ports') { sshould eq '0.0.0.0:8080->8080/tcp' }
+  its('ports') { should eq '0.0.0.0:8080->8080/tcp' }
   its('command') { should eq 'flask run --host=0.0.0.0 --port=8080' }
 end

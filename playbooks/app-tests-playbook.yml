@@ -7,4 +7,4 @@
     - name: Execute Chef InSpec against NGINX hosts
       command: /usr/bin/inspec exec tests/nginx -t ssh://vagrant@{{ item.host }} --sudo -i {{ item.key }} --reporter html:reports/nginx/{{ item.host }}.html
       with_items:
-        - "{{ host: 'nginx.local', key: '/home/go/keys/nginx/libvirt/private_key'}}"
+        - "{{ 'host': 'nginx.local', 'key': '/home/go/keys/nginx/libvirt/private_key' }}"

@@ -8,6 +8,7 @@
 
     - name: Pull image
       docker_image:
+        # yamllint disable-line rule:line-length
         name: "{{ lookup('env','REGISTRY_URL') }}/{{ lookup('env','IMAGE_NAME') }}"
         tag: "{{ lookup('env','IMAGE_TAG') }}"
         force: true
@@ -20,14 +21,16 @@
     - name: Deploy application container
       docker_container:
         name: demo
+        # yamllint disable-line rule:line-length
         image: "{{ lookup('env','REGISTRY_URL') }}/{{ lookup('env','IMAGE_NAME') }}:{{ lookup('env','IMAGE_TAG') }}"
         state: started
         restart: true
         ports:
-        - "{{ lookup('env','CONTAINER_PORT') }}:{{ lookup('env','CONTAINER_PORT') }}"
+          # yamllint disable-line rule:line-length
+          - "{{ lookup('env','CONTAINER_PORT') }}:{{ lookup('env','CONTAINER_PORT') }}"
         env:
           PAGE: "{{ lookup('env','PAGE') }}"
-    
+
     - name: Wait before starting the next deployment
       pause:
         seconds: 10

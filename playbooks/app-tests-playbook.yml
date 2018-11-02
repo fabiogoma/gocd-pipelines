@@ -5,12 +5,14 @@
 
   tasks:
     - name: Execute Chef InSpec against NGINX hosts
+      # yamllint disable-line rule:line-length
       command: /usr/bin/inspec exec tests/nginx -t ssh://vagrant@{{ item.host }} --sudo -i {{ item.ssh_key }} --reporter html:reports/nginx/{{ item.host }}.html
       with_items:
-        - { host: nginx.local, ssh_key: /home/go/keys/nginx/libvirt/private_key }
-    
+        - {host: nginx.local, ssh_key: /home/go/keys/nginx/libvirt/private_key}
+
     - name: Execute Chef InSpec against application hosts
+      # yamllint disable-line rule:line-length
       command: /usr/bin/inspec exec tests/app -t ssh://vagrant@{{ item.host }} --sudo -i {{ item.ssh_key }} --reporter html:reports/app/{{ item.host }}.html
       with_items:
-        - { host: app1.local, ssh_key: /home/go/keys/app1/libvirt/private_key }
-        - { host: app2.local, ssh_key: /home/go/keys/app2/libvirt/private_key }
+        - {host: app1.local, ssh_key: /home/go/keys/app1/libvirt/private_key}
+        - {host: app2.local, ssh_key: /home/go/keys/app2/libvirt/private_key}

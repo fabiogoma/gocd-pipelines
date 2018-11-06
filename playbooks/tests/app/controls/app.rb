@@ -14,7 +14,7 @@ describe firewalld do
   its('default_zone') { should eq 'public' }
   it { should have_service_enabled_in_zone('ssh', 'public') }
   it { should have_service_enabled_in_zone('mdns', 'public') }
-  it { should have_port_enabled_in_zone('8080/tcp', 'public') }
+  it { should have_port_enabled_in_zone('9090/tcp', 'public') }
 end
 
 # Check packages
